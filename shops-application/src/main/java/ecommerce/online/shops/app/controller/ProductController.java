@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping()
+@RequestMapping("${api.prefix}/product")
 public class ProductController {
 
     private final ProductService productService;
