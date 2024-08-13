@@ -42,7 +42,7 @@ public class ImageController {
         var image = imageService.getImageById(imageId);
         ByteArrayResource resource = new ByteArrayResource(image.getImage().getBytes(1, (int) image.getImage().length()));
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getFileType()))
-                .header(CONTENT_DISPOSITION, "attachment; filename=\"" + image.getFilename() + "\"")
+                .header(CONTENT_DISPOSITION, "attachment; filename=\"" +image.getFilename() + "\"")
                 .body(resource);
     }
 

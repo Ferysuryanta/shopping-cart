@@ -1,7 +1,6 @@
 package ecommerce.online.shops.app.controller;
 
 import ecommerce.online.shops.app.exception.ResourceNotFoundException;
-import ecommerce.online.shops.app.model.Product;
 import ecommerce.online.shops.app.request.AddProductRequest;
 import ecommerce.online.shops.app.request.ProductUpdateRequest;
 import ecommerce.online.shops.app.respponse.ApiResponse;

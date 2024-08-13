@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
+import java.io.Serial;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,16 +49,16 @@ public class ImageServiceImpl implements ImageService {
                 image.setImage(new SerialBlob(file.getBytes()));
                 image.setProduct(product);
 
-                String downloadUrl = "/api/v1/images/image/download" + image.getId();
+                String downloadUrl = "/api/v1/images/image/download/" + image.getId();
                 image.setDownloadUrl(downloadUrl);
                 var savedImage = imageRepository.save(image);
 
-                savedImage.setDownloadUrl("/api/v1/images/image/download" + savedImage.getId());
+                savedImage.setDownloadUrl("/api/v1/images/image/download/" + savedImage.getId());
                 imageRepository.save(savedImage);
 
                 var imageDto = new ImageDto();
                 imageDto.setImageId(savedImage.getId());
-                imageDto.setImageName(savedImage.getFilename());
+                imageDto.setFilename(savedImage.getFilename());
                 imageDto.setDownloadUrl(savedImage.getDownloadUrl());
                 imageDtos.add(imageDto);
 
