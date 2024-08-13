@@ -3,7 +3,7 @@ package ecommerce.online.shops.app.controller;
 import ecommerce.online.shops.app.exception.AlreadyExistException;
 import ecommerce.online.shops.app.exception.ResourceNotFoundException;
 import ecommerce.online.shops.app.model.Category;
-import ecommerce.online.shops.app.respponse.ApiResponse;
+import ecommerce.online.shops.app.response.ApiResponse;
 import ecommerce.online.shops.app.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

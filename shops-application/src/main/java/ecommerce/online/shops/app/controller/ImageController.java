@@ -2,7 +2,7 @@ package ecommerce.online.shops.app.controller;
 
 import ecommerce.online.shops.app.dto.ImageDto;
 import ecommerce.online.shops.app.exception.ResourceNotFoundException;
-import ecommerce.online.shops.app.respponse.ApiResponse;
+import ecommerce.online.shops.app.response.ApiResponse;
 import ecommerce.online.shops.app.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;

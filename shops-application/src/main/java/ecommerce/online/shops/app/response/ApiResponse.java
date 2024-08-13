@@ -1,4 +1,4 @@
-package ecommerce.online.shops.app.respponse;
+package ecommerce.online.shops.app.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
