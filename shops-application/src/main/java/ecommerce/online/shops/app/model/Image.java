@@ -21,8 +21,10 @@ public class Image {
     private Long id;
     private String filename;
     private String fileType;
+//    @Lob
+//    private Blob image;
     @Lob
-    private Blob image;
+    private byte[] image;
     private String downloadUrl;
 
     @ManyToOne

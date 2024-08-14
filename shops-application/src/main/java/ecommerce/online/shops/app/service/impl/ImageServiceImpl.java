@@ -8,6 +8,8 @@ import ecommerce.online.shops.app.service.ImageService;
 import ecommerce.online.shops.app.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -38,6 +40,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<ImageDto> saveImages(List<MultipartFile> files, Long productId) {
         var product = productService.getProductById(productId);
         List<ImageDto> imageDtos = new ArrayList<>();
@@ -46,14 +49,15 @@ public class ImageServiceImpl implements ImageService {
                 Image image = new Image();
                 image.setFilename(file.getOriginalFilename());
                 image.setFileType(file.getContentType());
-                image.setImage(new SerialBlob(file.getBytes()));
+                image.setImage(file.getBytes());
                 image.setProduct(product);
 
-                String downloadUrl = "/api/v1/images/image/download/" + image.getId();
+                String buildDownloadUrl = "/api/v1/images/image/download/";
+                String downloadUrl = buildDownloadUrl + image.getId();
                 image.setDownloadUrl(downloadUrl);
                 var savedImage = imageRepository.save(image);
 
-                savedImage.setDownloadUrl("/api/v1/images/image/download/" + savedImage.getId());
+                savedImage.setDownloadUrl(buildDownloadUrl + savedImage.getId());
                 imageRepository.save(savedImage);
 
                 var imageDto = new ImageDto();
@@ -62,7 +66,7 @@ public class ImageServiceImpl implements ImageService {
                 imageDto.setDownloadUrl(savedImage.getDownloadUrl());
                 imageDtos.add(imageDto);
 
-            } catch (IOException | SQLException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e.getMessage());
             }
         }
@@ -75,9 +79,9 @@ public class ImageServiceImpl implements ImageService {
         try {
             image.setFilename(file.getOriginalFilename());
             image.setFilename(file.getOriginalFilename());
-            image.setImage(new SerialBlob(file.getBytes()));
+            image.setImage(file.getBytes());
             imageRepository.save(image);
-        } catch (IOException | SQLException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
