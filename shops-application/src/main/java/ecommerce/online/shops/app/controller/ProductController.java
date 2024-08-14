@@ -22,13 +22,15 @@ public class ProductController {
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllProducts() {
         var products = productService.getAllProducts();
-        return ResponseEntity.ok(new ApiResponse("Success", products));
+        var productDto = productService.getConvertedProducts(products);
+        return ResponseEntity.ok(new ApiResponse("Success", productDto));
     }
     @GetMapping("/products/{productId}/product")
     public ResponseEntity<ApiResponse> getProductById(@PathVariable("productId") Long productId) {
         try {
             var product = productService.getProductById(productId);
-            return ResponseEntity.ok(new ApiResponse("success", product));
+            var productDto = productService.convertToDto(product);
+            return ResponseEntity.ok(new ApiResponse("success", productDto));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND)
                     .body(new ApiResponse(e.getMessage(), null));

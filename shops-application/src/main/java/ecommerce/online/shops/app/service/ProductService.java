@@ -1,5 +1,6 @@
 package ecommerce.online.shops.app.service;
 
+import ecommerce.online.shops.app.dto.ProductDto;
 import ecommerce.online.shops.app.model.Product;
 import ecommerce.online.shops.app.request.AddProductRequest;
 import ecommerce.online.shops.app.request.ProductUpdateRequest;
@@ -19,6 +20,6 @@ public interface ProductService {
     List<Product> getProductByName(String name);
     List<Product> getProductsByBrandAndName(String category, String name);
     Long countProductsByBrandAndName(String brand, String name);
-    List<Product> getConvertedProducts(List<Product> products);
-//    ProductDto convertToDto(Product product);
+    List<ProductDto> getConvertedProducts(List<Product> products);
+    ProductDto convertToDto(Product product);
 }
