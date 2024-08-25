@@ -16,7 +16,7 @@ public class CartItemController {
 
     private final CartItemService cartItemService;
 
-    @PostMapping("/item-add")
+    @PostMapping("/item/add")
     public ResponseEntity<ApiResponse> addItemCart(
                         @RequestParam Long cartId,
                         @RequestParam Long productId,
