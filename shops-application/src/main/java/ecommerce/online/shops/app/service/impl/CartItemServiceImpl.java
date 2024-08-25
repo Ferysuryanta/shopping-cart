@@ -10,6 +10,7 @@ import ecommerce.online.shops.app.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Service
@@ -35,8 +36,8 @@ public class CartItemServiceImpl implements CartItemService {
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst()
-                .orElse(null);
-        if (Objects.requireNonNull(cartItem).getId() == null) {
+                .orElse(new CartItem());
+        if (cartItem.getId() == null) {
             cartItem.setProduct(product);
             cartItem.setQuantity(quantity);
             cartItem.setUnitPrice(product.getPrice());
@@ -70,7 +71,10 @@ public class CartItemServiceImpl implements CartItemService {
                     item.setTotalPrice();
                 });
 
-        var totalAmount = cart.getTotalAmount();
+        var totalAmount = cart.getItems()
+                .stream()
+                .map(CartItem::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
         cart.setTotalAmount(totalAmount);
         cartRepository.save(cart);
     }

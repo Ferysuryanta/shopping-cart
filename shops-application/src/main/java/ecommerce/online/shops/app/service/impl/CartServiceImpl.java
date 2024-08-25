@@ -1,14 +1,15 @@
 package ecommerce.online.shops.app.service.impl;
 
 import ecommerce.online.shops.app.model.Cart;
-import ecommerce.online.shops.app.model.CartItem;
 import ecommerce.online.shops.app.repo.CartItemRepository;
 import ecommerce.online.shops.app.repo.CartRepository;
 import ecommerce.online.shops.app.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final AtomicLong cartIdGenerator = new AtomicLong(0);
     @Override
     public Cart getCart(Long id) {
         var cart = cartRepository.findById(id)
@@ -24,7 +26,7 @@ public class CartServiceImpl implements CartService {
         cart.setTotalAmount(totalAmount);
         return cartRepository.save(cart);
     }
-
+    @Transactional
     @Override
     public void clearCart(Long id) {
         var cart = getCart(id);
@@ -36,10 +38,13 @@ public class CartServiceImpl implements CartService {
     @Override
     public BigDecimal getTotalPrice(Long id) {
         var cart = getCart(id);
-//        return cart.getItems()
-//                .stream()
-//                .map(CartItem::getTotalPrice)
-//                .reduce(BigDecimal.ZERO, BigDecimal::add);
         return cart.getTotalAmount();
+    }
+    @Override
+    public Long initializeNewCart() {
+        var newCart = new Cart();
+        Long newCartId = cartIdGenerator.incrementAndGet();
+        newCart.setId(newCartId);
+        return cartRepository.save(newCart).getId();
     }
 }

@@ -3,6 +3,7 @@ package ecommerce.online.shops.app.controller;
 import ecommerce.online.shops.app.exception.ResourceNotFoundException;
 import ecommerce.online.shops.app.response.ApiResponse;
 import ecommerce.online.shops.app.service.CartItemService;
+import ecommerce.online.shops.app.service.impl.CartServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +16,17 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class CartItemController {
 
     private final CartItemService cartItemService;
+    private final CartServiceImpl cartService;
 
     @PostMapping("/item/add")
     public ResponseEntity<ApiResponse> addItemCart(
-                        @RequestParam Long cartId,
+                        @RequestParam(required = false) Long cartId,
                         @RequestParam Long productId,
                         @RequestParam Integer quantity) {
         try {
+            if (cartId == null) {
+                cartId = cartService.initializeNewCart();
+            }
             cartItemService.addCartItem(cartId, productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Add Cart Items Success", null));
         } catch (ResourceNotFoundException e) {
