@@ -89,7 +89,8 @@ public class ProductController {
                 return ResponseEntity.status(NOT_FOUND)
                         .body(new ApiResponse("Category not found", null));
             }
-            return ResponseEntity.ok(new ApiResponse("Success", products));
+            var convertProducts = productService.getConvertedProducts(products);
+            return ResponseEntity.ok(new ApiResponse("Success", convertProducts));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("error", e.getMessage()));
@@ -118,7 +119,8 @@ public class ProductController {
                 return ResponseEntity.status(NOT_FOUND)
                         .body(new ApiResponse("No products found", null));
             }
-            return ResponseEntity.ok(new ApiResponse("Success", products));
+            var convertProducts = productService.getConvertedProducts(products);
+            return ResponseEntity.ok(new ApiResponse("Success", convertProducts));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(e.getMessage(), null));
@@ -132,7 +134,8 @@ public class ProductController {
                 return ResponseEntity.status(NOT_FOUND)
                         .body(new ApiResponse("No products found", null));
             }
-            return ResponseEntity.ok(new ApiResponse("Success", products));
+            var convertProducts = productService.getConvertedProducts(products);
+            return ResponseEntity.ok(new ApiResponse("Success", convertProducts));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(e.getMessage(), null));

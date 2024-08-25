@@ -36,6 +36,12 @@ public class Cart {
         updateTotalAmount();
     }
 
+    public void removeItem(CartItem item) {
+        this.items.remove(item);
+        item.setCart(null);
+        updateTotalAmount();
+    }
+
     private void updateTotalAmount() {
         this.totalAmount = items.stream()
                 .map(item -> {
